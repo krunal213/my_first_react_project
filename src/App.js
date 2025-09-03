@@ -1,25 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import {LoginForm} from "./login/ui/LoginForm.tsx";
+import {LoginRepositoryImpl} from "./login/repository/LoginRepositoryImpl.ts";
+import {NetworkDataSourceImpl} from "./login/repository/datasource/network/NetworkDataSourceImpl.ts";
+import {LocalDataSourceImpl} from "./login/repository/datasource/local/LocalDataSourceImpl.ts";
+import {useLoginViewModel} from "./login/viewmodel/useLoginViewModel.ts";
+import {LoginUseCase} from "./login/usecase/LoginUseCase.ts";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const loginViewModel = useLoginViewModel(new LoginUseCase(
+        new LoginRepositoryImpl(new NetworkDataSourceImpl(), new LocalDataSourceImpl(localStorage))
+    ));
+    return (
+        <>
+            <LoginForm viewModel={loginViewModel}/>
+        </>
+    );
 }
 
 export default App;
