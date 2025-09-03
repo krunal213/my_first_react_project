@@ -86,6 +86,14 @@ export function LoginForm({ viewModel }: Props) {
                 Login
             </Button>
 
+
+            {result instanceof Success && (
+                <Alert variant="filled" severity="success" sx={{mt: 2}}>
+                    {result?.data}
+                </Alert>
+            )}
+
+
             {result instanceof Failure && (
                 <Alert variant="filled" severity="error" sx={{mt: 2}}>
                     {result?.exception.message}

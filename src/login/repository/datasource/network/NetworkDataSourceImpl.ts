@@ -6,14 +6,17 @@ import {LoginResponse} from "../../../entity/LoginResponse.ts";
 
 export class NetworkDataSourceImpl implements NetworkDataSource {
 
-    private url: string = "https://reqres.in/"
+    private url: string = "https://dummyjson.com/"
 
     async login(email: string, password: string): Promise<string> {
-        const data = axios.post(this.url + "api/login", new LoginRequest(email, password))
+        const response = await axios.post(this.url + "auth/login", new LoginRequest(email, password))
 
-        const loginResponse = plainToInstance(LoginResponse,data)
+        console.log("Data : "+response.data)
 
-        return loginResponse.token;
+        const loginResponse = plainToInstance(LoginResponse,response.data)
+
+        return loginResponse.accessToken;
     }
 
 }
+
